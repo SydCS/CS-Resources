@@ -1,3 +1,5 @@
+https://inst.eecs.berkeley.edu/~cs188/
+
 # Search
 
 ## Uninformed Search
@@ -57,6 +59,8 @@ Genetic Algorithms
 ## First Order Logic
 
 # Bayes Nets
+
+# Hidden Markov Models
 
 # Reinforcement Learning
 

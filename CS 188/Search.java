@@ -128,9 +128,10 @@ public class Search {
         Comparator<Node> dfsComparator = (Node n1, Node n2) -> n2.depth - n1.depth; // LIFO
         Comparator<Node> bfsComparator = Comparator.comparingInt(n -> n.depth); // FIFO
         Comparator<Node> ucsComparator = Comparator.comparingInt(n -> n.pathCost); // priority: cumulative cost
-        Comparator<Node> greedyComparator = (n1, n2) -> heuristic(n1.state, "GOAL") - heuristic(n2.state, "GOAL");
+        Comparator<Node> greedyComparator = (n1, n2) -> heuristic(n1.state, "GOAL") - heuristic(n2.state, "GOAL"); // priority:
+                                                                                                                   // heuristic
         Comparator<Node> aStarComparator = (n1, n2) -> (n1.pathCost + heuristic(n1.state, "GOAL"))
-                - (n2.pathCost + heuristic(n2.state, "GOAL"));
+                - (n2.pathCost + heuristic(n2.state, "GOAL")); // priority: cumulative cost + heuristic
 
         // 执行搜索
         List<String> dfsPath = dfs.search(dfsComparator);
