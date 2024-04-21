@@ -90,19 +90,67 @@ def depthFirstSearch(problem: SearchProblem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    cur = (problem.getStartState(), [])  # state, path
+    fringe = util.Stack()  # DFS
+    fringe.push(cur)
+    visited = set()
+
+    while not fringe.isEmpty():
+        cur = fringe.pop()
+        if problem.isGoalState(cur[0]):
+            return cur[1]
+        if cur[0] not in visited:
+            visited.add(cur[0])
+            for successor in problem.getSuccessors(cur[0]):
+                fringe.push((successor[0], cur[1] + [successor[1]]))
+
+    return cur[1]
 
 
 def breadthFirstSearch(problem: SearchProblem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    cur = (problem.getStartState(), [])  # state, path
+    fringe = util.Queue()  # BFS
+    fringe.push(cur)
+    visited = set()
+
+    while not fringe.isEmpty():
+        cur = fringe.pop()
+        if problem.isGoalState(cur[0]):
+            return cur[1]
+        if cur[0] not in visited:
+            visited.add(cur[0])
+            for successor in problem.getSuccessors(cur[0]):
+                fringe.push((successor[0], cur[1] + [successor[1]]))
+
+    return cur[1]
 
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    cur = (problem.getStartState(), [], 0)  # state, path, cost
+    fringe = util.PriorityQueueWithFunction(lambda n: n[2])  # UCS
+    fringe.push(cur)
+    visited = set()
+
+    while not fringe.isEmpty():
+        cur = fringe.pop()
+        if problem.isGoalState(cur[0]):
+            return cur[1]
+        if cur[0] not in visited:
+            visited.add(cur[0])
+            for successor in problem.getSuccessors(cur[0]):
+                fringe.push(
+                    (
+                        successor[0],
+                        cur[1] + [successor[1]],
+                        cur[2] + successor[2],
+                    )
+                )
+
+    return cur[1]
 
 
 def nullHeuristic(state, problem=None):
@@ -116,7 +164,40 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    start = (problem.getStartState(), [], 0)
+    fringe = util.PriorityQueue()  # A*
+    fringe.push(start, heuristic(problem.getStartState(), problem))
+    visited = set()
+
+    while not fringe.isEmpty():
+        (state, path, cost) = fringe.pop()
+        if problem.isGoalState(state):
+            return path
+        if state not in visited:
+            visited.add(state)
+            for next_state, next_action, next_cost in problem.getSuccessors(state):
+                fringe.push(
+                    (
+                        next_state,
+                        path + [next_action],
+                        cost + next_cost,
+                    ),
+                    cost + next_cost + heuristic(next_state, problem),
+                )
+
+    return start[1]
+
+
+def genericSearch(problem, fringe, policy):
+    """
+    A generic search function that can be used for different search strategies.
+
+    :param problem: The search problem instance.
+    :param fringe: The data structure used to store nodes.
+    :param policy: A function to add successors to the fringe. This function should take the fringe, successors, and current path as arguments.
+    """
+
+    pass
 
 
 # Abbreviations

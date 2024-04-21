@@ -1,17 +1,17 @@
 import java.util.*;
 
-class Edge {
-    String target; // 目标状态
-    int cost; // 边的权值
-
-    public Edge(String target, int weight) {
-        this.target = target;
-        this.cost = weight;
-    }
-}
-
 class Graph {
-    private Map<String, List<Edge>> adjacencyList;
+    class Edge {
+        String target; // 目标状态
+        int cost; // 边的权值
+
+        public Edge(String target, int weight) {
+            this.target = target;
+            this.cost = weight;
+        }
+    }
+
+    private Map<String, List<Edge>> adjacencyList; // 邻接表
 
     public Graph() {
         this.adjacencyList = new HashMap<>();
@@ -29,9 +29,9 @@ class Graph {
 class Node {
     String state;
     Node parent;
-    int depth; // DFS, BFS需要
-    int pathCost; // UCS需要
-    int estimatedCostToGoal; // Greedy, A*需要
+    int depth; // DFS, BFS 需要
+    int pathCost; // UCS 需要
+    int estimatedCostToGoal; // Greedy, A* 需要
 
     public Node(String state, Node parent, int depth, int pathCost, int estimatedCostToGoal) {
         this.state = state;
@@ -71,7 +71,7 @@ public class Search {
 
     public List<String> search(Comparator<Node> comparator) {
         PriorityQueue<Node> fringe = new PriorityQueue<>(comparator);
-        fringe.add(new Node("START", null, 0, 0, heuristic("START", goal))); // 初始节点
+        fringe.add(new Node("START", null, 0, 0, heuristic("START", goal))); // 起点
         Set<String> visited = new HashSet<>();
 
         while (!fringe.isEmpty()) {
@@ -79,16 +79,18 @@ public class Search {
             if (currentNode.state.equals(goal)) {
                 return reconstructPath(currentNode);
             }
+
             if (!visited.contains(currentNode.state)) {
                 visited.add(currentNode.state);
-                for (Edge e : graph.getNeighbors(currentNode.state)) {
-                    Node n = new Node(e.target, currentNode, currentNode.depth + 1, e.cost + currentNode.pathCost,
-                            heuristic(e.target, goal));
+
+                for (Graph.Edge e : graph.getNeighbors(currentNode.state)) {
+                    Node n = new Node(e.target, currentNode, currentNode.depth + 1,
+                            e.cost + currentNode.pathCost, heuristic(e.target, goal));
                     fringe.add(n);
                 }
             }
         }
-        return null; // 没有找到解决方案
+        return null;
     }
 
     private List<String> reconstructPath(Node node) {
@@ -125,11 +127,11 @@ public class Search {
         Search bfs = new Search(graph, "GOAL");
         Search ucs = new Search(graph, "GOAL");
 
-        Comparator<Node> dfsComparator = (Node n1, Node n2) -> n2.depth - n1.depth; // LIFO
-        Comparator<Node> bfsComparator = Comparator.comparingInt(n -> n.depth); // FIFO
+        Comparator<Node> dfsComparator = (Node n1, Node n2) -> n2.depth - n1.depth; // LIFO stack, priority: -depth
+        Comparator<Node> bfsComparator = Comparator.comparingInt(n -> n.depth); // FIFO queue, priority: depth
         Comparator<Node> ucsComparator = Comparator.comparingInt(n -> n.pathCost); // priority: cumulative cost
-        Comparator<Node> greedyComparator = (n1, n2) -> heuristic(n1.state, "GOAL") - heuristic(n2.state, "GOAL"); // priority:
-                                                                                                                   // heuristic
+        Comparator<Node> greedyComparator = (n1, n2) -> heuristic(n1.state, "GOAL") -
+                heuristic(n2.state, "GOAL"); // priority: heuristic
         Comparator<Node> aStarComparator = (n1, n2) -> (n1.pathCost + heuristic(n1.state, "GOAL"))
                 - (n2.pathCost + heuristic(n2.state, "GOAL")); // priority: cumulative cost + heuristic
 
