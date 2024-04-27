@@ -58,6 +58,10 @@ Expectimax
 
 # Logic
 
+Knowledge base; Inference engine
+
+## Propositional Logic
+
 ## First Order Logic
 
 # Probability
