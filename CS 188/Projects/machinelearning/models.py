@@ -10,9 +10,8 @@ Your code will not pass if the gradescope autograder detects any changed imports
 """
 from torch.nn import Parameter, Linear
 from torch import optim, tensor, tensordot, empty, ones
-from torch.nn.functional import cross_entropy, relu, mse_loss, softmax
+from torch.nn.functional import cross_entropy, relu, mse_loss
 from torch import movedim
-import torch
 
 
 class PerceptronModel(Module):
@@ -38,7 +37,8 @@ class PerceptronModel(Module):
         super(PerceptronModel, self).__init__()
 
         "*** YOUR CODE HERE ***"
-        self.w = Parameter(torch.rand((1, dimensions)))  # Initialize your weights here
+        print(dimensions)
+        self.w = Parameter(tensor(empty(1, dimensions)))  # Initialize your weights here
 
     def get_weights(self):
         """
@@ -57,10 +57,7 @@ class PerceptronModel(Module):
         The pytorch function `tensordot` may be helpful here.
         """
         "*** YOUR CODE HERE ***"
-        # TODO
-        print(x.shape, self.w.shape)
-        # return torch.dot(x.squeeze(), self.w.squeeze())
-        return torch.einsum("ij,ij->", x, self.w)
+        return tensordot(x, self.w, dims=1)
 
     def get_prediction(self, x):
         """
@@ -83,14 +80,14 @@ class PerceptronModel(Module):
         with no_grad():
             dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
             "*** YOUR CODE HERE ***"
-            converged = False
-            while not converged:
-                converged = True
+            converge = False
+            while not converge:
+                converge = True
                 for x, y in dataloader:
                     pred = self.get_prediction(x)
                     if pred != y:
-                        converged = False
                         self.w += y * x
+                        converge = False
 
 
 class RegressionModel(Module):
@@ -155,8 +152,8 @@ class RegressionModel(Module):
 
         """
         "*** YOUR CODE HERE ***"
-        learning_rate = 0.001
-        epochs = 800
+        learning_rate = 0.002
+        epochs = 600
         batch_size = 32
 
         dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
@@ -233,9 +230,8 @@ class DigitClassificationModel(Module):
         Returns: a loss tensor
         """
         """ YOUR CODE HERE """
-        print(x.shape, y.shape)
         predict = self.run(x)
-        ce = torch.nn.CrossEntropyLoss()
+        ce = cross_entropy
         return ce(predict, y)
 
     def train(self, dataset):
@@ -251,11 +247,12 @@ class DigitClassificationModel(Module):
         optimizer = optim.Adam(self.parameters(), lr=learning_rate)
 
         for epoch in range(epochs):
-            for x, y in dataloader:
+            for x, label in dataloader:
+                print(x, label)
                 if type(x) != str:
-                    print(x.shape, y.shape)
+                    print(x.shape, label.shape)
                     optimizer.zero_grad()
-                    loss = self.get_loss(x, y)
+                    loss = self.get_loss(x, label)
                     loss.backward()
                     optimizer.step()
 
