@@ -2,9 +2,9 @@ https://inst.eecs.berkeley.edu/~cs188/
 
 # Search
 
-## Uninformed Search
+Search: state space, successor function, start state & goal test $\Longrightarrow$ solution
 
-state space, successor function, start state & goal test $\Longrightarrow$ solution
+## Uninformed Search
 
 _Depth-First Search_
 
@@ -20,19 +20,21 @@ _Greedy_
 
 _A\*_ = UCS + Greedy
 
-Admissibility: estimated cost $\leq$ actual cost to the goal
+**Admissibility**: estimated cost $\leq$ actual cost to the goal
 
 _A\*_ with admissible heuristic $\Rightarrow$ optimality
 
 ---
 
-Graph Search
+Graph Search: + set of expanded states
 
-Consistency:
+**Consistency**: estimated “arc” cost ≤ actual cost for each arc
+
+_A\*_ graph search with consistent heuristic $\Rightarrow$ optimality
 
 ## Constraint Satisfaction Problems
 
-Variables Domains + Constraints $\Rightarrow$ Solution
+Variables, Domains + Constraints $\Rightarrow$ Solution
 
 Backtracking = DFS + variable ordering + fail on violation
 
@@ -48,13 +50,28 @@ Hill Climbing
 
 Simulated Annealing
 
+Local Beam Search
+
 Genetic Algorithms
 
 ## Games
 
-Minimax
+state value V(s)
+
+Adversarial Search (Minimax)
+
+- Alpha-Beta Pruning
+- Limiting Depth: evaluation function
+
+---
 
 Expectimax
+
+Monte Carlo Tree Search
+
+- Evaluation by rollouts
+- Selective search: promising & uncertain
+  - Upper Bound Confidence
 
 # Logic
 

@@ -68,7 +68,7 @@ class ValueIterationAgent(ValueEstimationAgent):
         """
         "*** YOUR CODE HERE ***"
         for _ in range(self.iterations):
-            values = self.values.copy()
+            values = self.values.copy()  # “batch” version
             for state in self.mdp.getStates():
                 if not self.mdp.isTerminal(state):
                     q_values = []
@@ -107,9 +107,6 @@ class ValueIterationAgent(ValueEstimationAgent):
         terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        if self.mdp.isTerminal(state):
-            return None
-
         optimal_action = None
         for action in self.mdp.getPossibleActions(state):
             if optimal_action is None:

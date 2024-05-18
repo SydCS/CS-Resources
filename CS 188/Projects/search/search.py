@@ -196,7 +196,6 @@ def genericSearch(problem, fringe, policy):
     :param fringe: The data structure used to store nodes.
     :param policy: A function to add successors to the fringe. This function should take the fringe, successors, and current path as arguments.
     """
-
     pass
 
 

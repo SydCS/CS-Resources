@@ -21,16 +21,16 @@ def perceptron_learning_algorithm(X, y):
     w = np.zeros(X.shape[1])
 
     iteration_count = 0
-    while True:
-        is_error = False
+    converged = False
+    while not converged:
+        converged = True
         for i in range(len(X)):
             if np.sign(np.dot(w, X[i])) != y[i]:
                 w += y[i] * X[i]
-                is_error = True
+                converged = False
                 iteration_count += 1
                 # break
-        if not is_error:
-            break
+
     return w, iteration_count
 
 

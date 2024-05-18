@@ -70,6 +70,7 @@ public class Search {
     }
 
     public List<String> search(Comparator<Node> comparator) {
+        // Graph Search
         PriorityQueue<Node> fringe = new PriorityQueue<>(comparator);
         fringe.add(new Node("START", null, 0, 0, heuristic("START", goal))); // 起点
         Set<String> visited = new HashSet<>();
