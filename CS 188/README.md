@@ -211,10 +211,11 @@ Exploration & Exploitation
 
 ## Reinforcement Learning
 
-- Model-Based
-
-- Model-Free
-  - Value learning
-    - Monte-Carlo evaluation
-    - Temporal Difference Learning
-  - Q-learning
+- offline planning
+- online planning
+  - Model-Based
+  - Model-Free
+    - Value learning
+      - Monte-Carlo evaluation
+      - Temporal Difference Learning
+    - Q-learning

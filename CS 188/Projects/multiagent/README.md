@@ -2,20 +2,22 @@ Q1:
 
 For ReflexAgent, devise evaluationFunction()
 
-#TODO
-
 ---
 
 Q2:
 
-For MinimaxAgent, write adversarial search with multiple minimizer agents
+For MinimaxAgent, implement adversarial search with multiple minimizer agents
 
 Q3:
 
-For AlphaBetaAgent, write alpha-beta pruning (with multiple minimizer agents)
-
-#TODO
+For AlphaBetaAgent, implement alpha-beta pruning (with multiple minimizer agents)
 
 ---
 
 Q4:
+
+For ExpectimaxAgent, implement expectimax search (with multiple minimizer agents)
+
+Q5:
+
+Write a better evaluation function
